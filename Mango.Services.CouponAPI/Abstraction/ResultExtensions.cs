@@ -14,7 +14,7 @@ public static class ResultExtensions
         var problemDetails = problem.GetType().GetProperty(nameof(ProblemDetails))?.GetValue(problem) as ProblemDetails;
 
         problemDetails!.Extensions = new Dictionary<string, object?>
-        {
+        {//
             {
 
                 "errors", new[]
