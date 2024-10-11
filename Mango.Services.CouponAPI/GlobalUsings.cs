@@ -1,0 +1,15 @@
+﻿global using FluentValidation;
+global using Mango.Services.CouponAPI.Abstraction;
+global using Mango.Services.CouponAPI.Abstraction.Errors;
+global using Mango.Services.CouponAPI.Cache;
+global using Mango.Services.CouponAPI.Contracts;
+global using Mango.Services.CouponAPI.Contracts.Common;
+global using Mango.Services.CouponAPI.Contracts.Coupon;
+global using Mango.Services.CouponAPI.Data;
+global using Mango.Services.CouponAPI.Models;
+global using Mango.Services.CouponAPI.Services;
+global using Mapster;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Caching.Memory;
+global using System.Linq.Dynamic.Core;

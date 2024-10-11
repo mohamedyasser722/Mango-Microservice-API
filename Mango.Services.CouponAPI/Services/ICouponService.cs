@@ -1,18 +1,16 @@
-﻿using Mango.Services.CouponAPI.Abstraction;
-using Mango.Services.CouponAPI.Contracts.Coupon;
-using Mango.Services.CouponAPI.Models;
-
-namespace Mango.Services.CouponAPI.Services;
+﻿namespace Mango.Services.CouponAPI.Services;
 
 public interface ICouponService
 {
     // get All 
-    Task<Result<IEnumerable<Coupon>>> GetAllCoupons();
+    Task<Result<PaginatedList<CouponResponse>>> GetAllCoupons(RequestFilters requestFilters, CancellationToken cancellationToken);
     // get by id
-    Task<Result<Coupon>> GetCouponById(int couponId);
+    Task<Result<Coupon>> GetCouponById(int couponId, CancellationToken cancellationToken);
     // get by code
-    Task<Result<Coupon>> GetCouponByCode(string couponCode);
+    Task<Result<Coupon>> GetCouponByCode(string couponCode, CancellationToken cancellationToken);
     // create Coupon
-    Task<Result<Coupon>> CreateCoupon(CouponRequest coupon);
+    Task<Result<Coupon>> CreateCoupon(CouponRequest coupon, CancellationToken cancellationToken);
+    // update Coupon
+    Task<Result<Coupon>> UpdateCoupon(int couponId, CouponRequest coupon, CancellationToken cancellationToken);
 
 }

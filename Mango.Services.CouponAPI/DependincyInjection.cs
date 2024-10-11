@@ -1,19 +1,30 @@
-﻿using FluentValidation;
-using Mango.Services.CouponAPI.Contracts;
-using Mango.Services.CouponAPI.Services;
-using Mapster;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Mango.Services.CouponAPI;
 
 public static class DependincyInjection
 {
 
-    public static void RegisterAppServices(this IServiceCollection services)
+    public static IServiceCollection RegisterAppServices(this IServiceCollection services)
     {
         services.RegisterMapsterConfiguration();
         services.AddValidatorsFromAssemblyContaining<RefrenceValidatorAssembly>();
-        services.AddScoped<ICouponService, CouponService>();
 
+        services.AddScoped<CouponService>();
+        services.AddScoped<ICacheService, InMemoryCacheService>();
+        //services.AddScoped<ICouponService>(provider =>
+        //{
+        //    var coupounService = provider.GetRequiredService<CouponService>();
+
+        //    return new DecoratorCachedCouponService(coupounService, provider.GetService<IMemoryCache>()!, provider.GetService<ICacheService>()!,
+        //        provider.GetService<ILogger<DecoratorCachedCouponService>>());
+
+        //});
+        services.AddScoped<ICouponService, InMemoryCacheCouponService>();
+        services.AddMemoryCache();
+
+        return services;
     }
+
 
 }

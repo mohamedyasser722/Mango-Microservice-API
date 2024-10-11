@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Mango.Services.CouponAPI.Abstraction;
+﻿namespace Mango.Services.CouponAPI.Abstraction;
 
 public static class ResultExtensions
 {
@@ -14,7 +11,7 @@ public static class ResultExtensions
         var problemDetails = problem.GetType().GetProperty(nameof(ProblemDetails))?.GetValue(problem) as ProblemDetails;
 
         problemDetails!.Extensions = new Dictionary<string, object?>
-        {//
+        {
             {
 
                 "errors", new[]

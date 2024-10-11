@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Mango.Services.CouponAPI.Contracts.Coupon;
+﻿namespace Mango.Services.CouponAPI.Contracts.Coupon;
 
 public class CouponValidator : AbstractValidator<CouponRequest>
 {
