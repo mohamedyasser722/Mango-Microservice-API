@@ -3,14 +3,8 @@
 
 [Route("api/[controller]")]
 [ApiController]
-public class CouponAPIController(AppDbContext db,
-    ICouponService couponService,
-    ICouponService cachedCouponService,
-    ICouponService inMemoryCacheCouponService) : ControllerBase
+public class CouponAPIController(ICouponService inMemoryCacheCouponService) : ControllerBase
 {
-    private readonly AppDbContext _db = db;
-    private readonly ICouponService _couponService = couponService;
-    private readonly ICouponService _cachedCouponService = cachedCouponService;
     private readonly ICouponService _inMemoryCacheCouponService = inMemoryCacheCouponService;
 
     [HttpGet]
@@ -24,7 +18,7 @@ public class CouponAPIController(AppDbContext db,
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
     {
-        var coupon = await _couponService.GetCouponById(id, cancellationToken);
+        var coupon = await _inMemoryCacheCouponService.GetCouponById(id, cancellationToken);
 
         return coupon.IsSuccess ? Ok(coupon.Value.Adapt<CouponResponse>()) : coupon.ToProblem();
     }
@@ -33,7 +27,7 @@ public class CouponAPIController(AppDbContext db,
     [HttpGet("GetByCode/{code}")]
     public async Task<IActionResult> Get(string code, CancellationToken cancellationToken)
     {
-        var coupon = await _couponService.GetCouponByCode(code, cancellationToken);
+        var coupon = await _inMemoryCacheCouponService.GetCouponByCode(code, cancellationToken);
 
         return coupon.IsSuccess ? Ok(coupon.Value.Adapt<CouponResponse>()) : coupon.ToProblem();
     }
@@ -42,7 +36,7 @@ public class CouponAPIController(AppDbContext db,
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CouponRequest couponRequest, CancellationToken cancellationToken)
     {
-        var result = await _couponService.CreateCoupon(couponRequest, cancellationToken);
+        var result = await _inMemoryCacheCouponService.CreateCoupon(couponRequest, cancellationToken);
 
         if (result.IsFailure)
             return result.ToProblem();
@@ -54,7 +48,7 @@ public class CouponAPIController(AppDbContext db,
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] CouponRequest couponRequest, CancellationToken cancellationToken)
     {
-        var result = await _couponService.UpdateCoupon(id, couponRequest, cancellationToken);
+        var result = await _inMemoryCacheCouponService.UpdateCoupon(id, couponRequest, cancellationToken);
 
         if (result.IsFailure)
             return result.ToProblem();
@@ -62,4 +56,15 @@ public class CouponAPIController(AppDbContext db,
         return NoContent();
     }
 
+    // delete Coupon
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        var result = await _inMemoryCacheCouponService.DeleteCoupon(id, cancellationToken);
+
+        if (result.IsFailure)
+            return result.ToProblem();
+
+        return NoContent();
+    }
 }

@@ -85,4 +85,12 @@ public class DecoratorCachedCouponService(ICouponService couponService,
         await _cacheService.RemoveKeysStartingWith("GetAllCoupons_");
         return await _decorated.UpdateCoupon(couponId, coupon, cancellationToken);
     }
+
+    public async Task<Result<bool>> DeleteCoupon(int couponId, CancellationToken cancellationToken = default)
+    {
+        var cacheKey = $"GetCouponById_{couponId}";
+        await _cacheService.RemoveAsync(cacheKey);
+        await _cacheService.RemoveKeysStartingWith("GetAllCoupons_");
+        return await _decorated.DeleteCoupon(couponId, cancellationToken);
+    }
 }

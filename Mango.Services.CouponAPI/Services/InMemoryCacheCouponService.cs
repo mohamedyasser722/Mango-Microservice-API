@@ -112,4 +112,20 @@ public class InMemoryCacheCouponService(AppDbContext db, ICacheService cacheServ
         return Result.Success<Coupon>(coupon);
     }
 
+    public async Task<Result<bool>> DeleteCoupon(int couponId, CancellationToken cancellationToken)
+    {
+        var coupon = await _db.Coupons.FirstOrDefaultAsync(u => u.CouponId == couponId, cancellationToken);
+        if (coupon == null)
+            return Result.Failure<bool>(CouponError.couponNotFound);
+
+        _db.Coupons.Remove(coupon);
+        await _db.SaveChangesAsync(cancellationToken);
+
+        // Remove the cache
+        await _cacheService.RemoveKeysStartingWith("GetAllCoupons_");
+        await _cacheService.RemoveAsync($"GetCouponById_{couponId}");
+
+        return Result.Success(true);
+    }
+
 }

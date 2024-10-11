@@ -12,5 +12,9 @@ public interface ICouponService
     Task<Result<Coupon>> CreateCoupon(CouponRequest coupon, CancellationToken cancellationToken);
     // update Coupon
     Task<Result<Coupon>> UpdateCoupon(int couponId, CouponRequest coupon, CancellationToken cancellationToken);
+    // delete Coupon
+    Task<Result<bool>> DeleteCoupon(int couponId, CancellationToken cancellationToken);
+
+
 
 }
