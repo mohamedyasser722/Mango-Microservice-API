@@ -16,7 +16,7 @@ public class CouponAPIController(ICouponService inMemoryCacheCouponService) : Co
 
     // get by id
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         var coupon = await _inMemoryCacheCouponService.GetCouponById(id, cancellationToken);
 
@@ -25,7 +25,7 @@ public class CouponAPIController(ICouponService inMemoryCacheCouponService) : Co
 
     // get by code
     [HttpGet("GetByCode/{code}")]
-    public async Task<IActionResult> Get(string code, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetByCode(string code, CancellationToken cancellationToken)
     {
         var coupon = await _inMemoryCacheCouponService.GetCouponByCode(code, cancellationToken);
 
@@ -41,7 +41,7 @@ public class CouponAPIController(ICouponService inMemoryCacheCouponService) : Co
         if (result.IsFailure)
             return result.ToProblem();
 
-        return CreatedAtAction(nameof(Get), new { id = result.Value.CouponId }, result.Value);
+        return CreatedAtAction(nameof(GetByCode), new { id = result.Value.CouponId }, result.Value);
     }
 
     // update Coupon

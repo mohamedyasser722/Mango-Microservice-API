@@ -43,7 +43,7 @@ public class CouponService(AppDbContext db) : ICouponService
         var result = validator.Validate(couponRequest);
 
         if (!result.IsValid)
-            return Result.Failure<Coupon>(new Error(result.Errors.First().ErrorCode, result.Errors.First().ErrorMessage, StatusCodes.Status400BadRequest));
+            return Result.Failure<Coupon>(Error.FromValidationResult(result));
 
         var coupon = couponRequest.Adapt<Coupon>();
 
@@ -59,7 +59,7 @@ public class CouponService(AppDbContext db) : ICouponService
         var result = validator.Validate(couponRequest);
 
         if (!result.IsValid)
-            return Result.Failure<Coupon>(new Error(result.Errors.First().ErrorCode, result.Errors.First().ErrorMessage, StatusCodes.Status400BadRequest));
+            return Result.Failure<Coupon>(Error.FromValidationResult(result));
 
         var coupon = await _db.Coupons.FirstOrDefaultAsync(u => u.CouponId == couponId, cancellationToken);
         if (coupon == null)
