@@ -1,25 +1,11 @@
 
-using Mango.Services.Product.Abstraction;
-using Mango.Services.ProductAPI.Helpers;
-
-namespace Mango.Service.ProductAPI;
+namespace Mango.Services.ShoppingCartAPI;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
-        #region MyServices
-        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-        builder.Services.AddProblemDetails();
-
-        builder.AddProductAPIServices();
-        builder.RegisterJwtConfiguration();
-
-
-        #endregion
-
 
         // Add services to the container.
 
@@ -36,10 +22,9 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        app.UseExceptionHandler();
 
         app.UseHttpsRedirection();
-        app.UseAuthentication();
+
         app.UseAuthorization();
 
 
