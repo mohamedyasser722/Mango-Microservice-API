@@ -1,8 +1,11 @@
-﻿namespace Mango.Services.CouponAPI.Controllers;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Mango.Services.CouponAPI.Controllers;
 
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class CouponAPIController(ICouponService inMemoryCacheCouponService) : ControllerBase
 {
     private readonly ICouponService _inMemoryCacheCouponService = inMemoryCacheCouponService;
